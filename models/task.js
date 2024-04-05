@@ -12,25 +12,28 @@ const taskSchema = new Schema(
     stage: {
       type: String,
       default: "todo",
-      enum: ["todo", "im progress", "completed"],
+      enum: ["todo", "in progress", "completed"],
     },
-    activities: {
-      type: {
-        type: String,
-        default: "assigned",
-        enum: [
-          "assigned",
-          "started",
-          "in progress",
-          "bug",
-          "completed",
-          "commented",
-        ],
+    activities: [
+      {
+        type: {
+          type: String,
+          default: "assigned",
+          enum: [
+            "assigned",
+            "started",
+            "in progress",
+            "bug",
+            "completed",
+            "commented",
+          ],
+        },
+        activity: String,
+        date: { type: Date, default: new Date() },
+        by: { type: Schema.Types.ObjectId, ref: "User" },
       },
-      activity: String,
-      date: { type: Date, default: new Date() },
-      by: { type: Schema.Types.ObjectId, ref: "User" },
-    },
+    ],
+
     subTasks: [
       {
         title: String,
@@ -38,7 +41,6 @@ const taskSchema = new Schema(
         tag: String,
       },
     ],
-
     assets: [String],
     team: [{ type: Schema.Types.ObjectId, ref: "User" }],
     isTrashed: { type: Boolean, default: false },
@@ -47,4 +49,5 @@ const taskSchema = new Schema(
 );
 
 const Task = mongoose.model("Task", taskSchema);
+
 export default Task;

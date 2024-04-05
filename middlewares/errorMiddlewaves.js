@@ -1,5 +1,5 @@
 const routeNotFound = (req, res, next) => {
-  const error = new Error(`Route not found:${req.originalUrl}`);
+  const error = new Error(`Route not found: ${req.originalUrl}`);
   res.status(404);
   next(error);
 };
@@ -12,9 +12,10 @@ const errorHandler = (err, req, res, next) => {
     statusCode = 404;
     message = "Resource not found";
   }
-  req.status(statusCode).json({
+
+  res.status(statusCode).json({
     message: message,
-    stack: process.env.NODE_ENV !== "production" ? null : err.stack,
+    stack: process.env.NODE_ENV === "production" ? null : err.stack,
   });
 };
 
